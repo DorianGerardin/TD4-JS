@@ -15,13 +15,15 @@ class Game {
 		for (var i = 0; i < 16; i++) {
 			let piece = this.listeCases[i];
 			piece.img.src = "img/" + this.actualTheme + "/" + this.actualTheme + "_" + i + ".jpg";
+			piece.number = i;
 		}
+		this.listeCases.sort(function(a, b) {return a.id - b.id});
 		this.maj_affichage();
 	}
 
 	changerTheme(theme) {
 		for (var i = 0; i < 16; i++) {
-			this.listeCases[i].img.src = "img/" + theme + "/" + theme + "_" + i + ".jpg";
+			this.listeCases[i].img.src = "img/" + theme + "/" + theme + "_" + this.listeCases[i].number + ".jpg";
 		}
 		this.actualTheme = theme;
 		let modele = document.getElementById("photo16");
@@ -53,13 +55,84 @@ class Game {
 		let message = document.getElementById("message");
 		let places = 0;
 		for (var i = 0; i < this.listeCases.length; i++) {
-			this.listeCases[i].img.id.substring(5);
-			if (this.listeCases[i].id = i) {
+			if (this.listeCases[i].number == this.listeCases[i].id) {
 				places++;
 			}
 		}
-		message.innerHTML = "0 coups, " + places + "bien placé(s)"; 
+		message.innerHTML = "0 coup(s), " + places + " bien placé(s)"; 
 	}
 
+	changeCursor(number) {
+		
+		let piece = game.listeCases.find(element => element.number === number);
+		let idPiece = piece.id;
+	
+		let blanc = game.listeCases.find(element => element.number === 15);
+		let idBlanc = blanc.id;
+	
+		if (idPiece == 0) {
+			if (idPiece + 1 == idBlanc || idPiece + 4 == idBlanc) {
+				piece.setCursor("pointer");
+			}
+			else piece.setCursor("not-allowed");
+		}
+		else if (idPiece == 3) {
+			if (idPiece - 1 == idBlanc || idPiece + 4 == idBlanc) {
+				piece.setCursor("pointer");
+			}
+			else piece.setCursor("not-allowed");
+		}
+		else if (idPiece == 12) {
+			if (idPiece + 1 == idBlanc || idPiece - 4 == idBlanc) {
+				piece.setCursor("pointer");
+			}
+			else piece.setCursor("not-allowed");
+		}
+		else if (idPiece == 15) {
+			if (idPiece - 1 == idBlanc || idPiece - 4 == idBlanc) {
+				piece.setCursor("pointer");
+			}
+			else piece.setCursor("not-allowed");
+		}
+	
+		else if (idPiece == 4 || idPiece == 8) {
+			if (idPiece + 1 == idBlanc || idPiece - 4 == idBlanc || idPiece + 4 == idBlanc) {
+				piece.setCursor("pointer");
+			}
+			else piece.setCursor("not-allowed");
+		}
+		else if (idPiece == 1 || idPiece == 2) {
+			if (idPiece - 1 == idBlanc || idPiece + 1 == idBlanc || idPiece + 4 == idBlanc) {
+				piece.setCursor("pointer");
+			}
+			else piece.setCursor("not-allowed");
+		}
+		else if (idPiece == 7 || idPiece == 11) {
+			if (idPiece - 1 == idBlanc || idPiece - 4 == idBlanc || idPiece + 4 == idBlanc) {
+				piece.setCursor("pointer");
+			}
+			else piece.setCursor("not-allowed");
+		}
+		else if (idPiece == 13 || idPiece == 14) {
+			if (idPiece + 1 == idBlanc || idPiece - 1 == idBlanc || idPiece - 4 == idBlanc) {
+				piece.setCursor("pointer");
+			}
+			else piece.setCursor("not-allowed");
+		}
+	
+		else if (idPiece + 1 == idBlanc || idPiece - 1 == idBlanc || idPiece - 4 == idBlanc || idPiece + 4 == idBlanc){
+			piece.setCursor("pointer");
+		}
+	
+		else {piece.setCursor("not-allowed");};
+	
+	}
 
+	changeAllCursors() {
+		for (let i = 0; i < this.listeCases.length; i++) {
+			this.changeCursor(i);
+		}
+	}
+
+	
 }
