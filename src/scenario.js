@@ -1,4 +1,5 @@
 var theme;
+
 var game = new Game();
 
 game.melanger();

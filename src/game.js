@@ -4,6 +4,7 @@ class Game {
 		this.listeCases = new Array;
 		for (var i = 0; i < 16; i++) {
 			this.listeCases[i] = new Case(i);
+			this.listeCases[i].number = i;
 		}
 		this.coups = 0;
 		this.score = 0;
@@ -11,15 +12,27 @@ class Game {
 	}
 
 	melanger() {
-		this.listeCases.sort(function() {return Math.random() - 0.5});
-		for (var i = 0; i < 16; i++) {
-			let piece = this.listeCases[i];
-			piece.img.src = "img/" + this.actualTheme + "/" + this.actualTheme + "_" + i + ".jpg";
-			piece.number = i;
-		}
-		this.listeCases.sort(function(a, b) {return a.id - b.id});
-		this.maj_affichage();
+
 		this.changeAllCursors();
+
+		for (var i = 0; i < 500; i++) {
+		
+			let caseDeplacables = new Array;
+			for (var j = 0; j < 16; j++) {
+				let piece = this.listeCases[j];
+				if (this.listeCases[j].getCursor() == "pointer") {
+					caseDeplacables.push(this.listeCases[j]);
+				}
+			}
+			console.log(caseDeplacables);
+
+			let randomCase = Math.floor(Math.random() * (caseDeplacables.length));
+		
+			this.deplacerCase(caseDeplacables[randomCase].img.id);
+		}
+		this.maj_affichage();
+		this.listeCases.sort(function(a, b) {return a.id - b.id});
+
 	}
 
 	changerTheme(theme) {
@@ -65,10 +78,10 @@ class Game {
 
 	changeCursor(number) {
 		
-		let piece = game.listeCases.find(element => element.number === number);
+		let piece = this.listeCases.find(element => element.number === number);
 		let idPiece = piece.id;
 	
-		let blanc = game.listeCases.find(element => element.number === 15);
+		let blanc = this.listeCases.find(element => element.number === 15);
 		let idBlanc = blanc.id;
 	
 		if (idPiece == 0) {
@@ -135,9 +148,12 @@ class Game {
 		}
 	}
 
-	deplacerCase() {
+	deplacerCase(e) {
+		if(e.target!==undefined) {
+			e=e.target.id;
+		}
 
-		let piece = game.listeCases.find(element => element.img.id === this.id);
+		let piece = game.listeCases.find(element => element.img.id === e);
 		if (piece.getCursor() == "pointer") {
 			let nbPiece = piece.number;
 			let pieceSrc = piece.img.src;
