@@ -19,6 +19,7 @@ class Game {
 		}
 		this.listeCases.sort(function(a, b) {return a.id - b.id});
 		this.maj_affichage();
+		this.changeAllCursors();
 	}
 
 	changerTheme(theme) {
@@ -134,5 +135,28 @@ class Game {
 		}
 	}
 
-	
+	deplacerCase() {
+
+		let piece = game.listeCases.find(element => element.img.id === this.id);
+		if (piece.getCursor() == "pointer") {
+			let nbPiece = piece.number;
+			let pieceSrc = piece.img.src;
+
+			let blanc = game.listeCases.find(element => element.number === 15);
+			let nbBlanc = blanc.number;
+			let blancSrc = blanc.img.src;
+
+			let interSrc = piece.img.src;
+			piece.img.src = blanc.img.src;
+			blanc.img.src = interSrc;
+
+			let interNb = nbPiece;
+			piece.number = nbBlanc;
+			blanc.number = interNb;
+			
+			game.maj_affichage();
+			game.changeAllCursors();
+
+		}
+	}
 }

@@ -11,6 +11,7 @@ class Case {
 	}
 
 	getCursor() {
-		this.img.style.cursor;
+		return this.img.style.cursor;
 	}
+
 }
