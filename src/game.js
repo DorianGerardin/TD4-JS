@@ -15,7 +15,7 @@ class Game {
 
 		this.changeAllCursors();
 
-		for (var i = 0; i < 500; i++) {
+		for (var i = 0; i < 80; i++) {
 		
 			let caseDeplacables = new Array;
 			for (var j = 0; j < 16; j++) {
@@ -24,12 +24,12 @@ class Game {
 					caseDeplacables.push(this.listeCases[j]);
 				}
 			}
-			console.log(caseDeplacables);
 
 			let randomCase = Math.floor(Math.random() * (caseDeplacables.length));
 		
 			this.deplacerCase(caseDeplacables[randomCase].img.id);
 		}
+		this.coups = 0;
 		this.maj_affichage();
 		this.listeCases.sort(function(a, b) {return a.id - b.id});
 
@@ -67,13 +67,14 @@ class Game {
 
 	maj_affichage() {
 		let message = document.getElementById("message");
-		let places = 0;
-		for (var i = 0; i < this.listeCases.length; i++) {
-			if (this.listeCases[i].number == this.listeCases[i].id) {
-				places++;
+		this.score = 0;
+			for (var i = 0; i < this.listeCases.length; i++) {
+				if (this.listeCases[i].number == this.listeCases[i].id) {
+					this.score++;
+				}
 			}
-		}
-		message.innerHTML = "0 coup(s), " + places + " bien placé(s)"; 
+		
+		message.innerHTML = this.coups + " coup(s), " + this.score + " bien placé(s)"; 
 	}
 
 	changeCursor(number) {
@@ -169,10 +170,16 @@ class Game {
 			let interNb = nbPiece;
 			piece.number = nbBlanc;
 			blanc.number = interNb;
+
+			this.coups = this.coups + 1;
 			
-			game.maj_affichage();
 			game.changeAllCursors();
 
 		}
+	}
+
+	bougerCase_maj(e) {
+		game.deplacerCase(e);
+		game.maj_affichage();		
 	}
 }
