@@ -1,8 +1,12 @@
+var game = new Game();
 var theme;
 
-var game = new Game();
+game.changeAllCursors();
 
 game.melanger();
+
+game.maj_affichage();
+
 
 theme = document.getElementById("themes");
 theme.onchange = function() {game.changerTheme(theme.value)};

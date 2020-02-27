@@ -15,7 +15,7 @@ class Game {
 
 		this.changeAllCursors();
 
-		for (var i = 0; i < 80; i++) {
+		for (var i = 0; i < 200; i++) {
 		
 			let caseDeplacables = new Array;
 			for (var j = 0; j < 16; j++) {
@@ -38,8 +38,11 @@ class Game {
 	changerTheme(theme) {
 		for (var i = 0; i < 16; i++) {
 			this.listeCases[i].img.src = "img/" + theme + "/" + theme + "_" + this.listeCases[i].number + ".jpg";
-		}
+		}		
 		this.actualTheme = theme;
+		if (game.hasWon()) {
+			this.listeCases[15].img.src = "img/" + this.actualTheme + "/" + this.actualTheme + "_.jpg";
+		}
 		let modele = document.getElementById("photo16");
 		modele.src = "img/" + theme + "/" + theme + "_" + "16" + ".jpg";
 		this.maj_affichage();
@@ -68,13 +71,33 @@ class Game {
 	maj_affichage() {
 		let message = document.getElementById("message");
 		this.score = 0;
+
+		if (this.hasWon()) {
+			console.log("yo");
+			message.innerHTML = "BRAVO !! Puzzle résolu en " + this.coups + " coups !";
+			for (let i = 0; i < this.listeCases.length; i++) {
+				this.listeCases[i].setCursor("not-allowed");
+				game.listeCases[i].img.removeEventListener('click', game.bougerCase_maj);
+			}
+			this.listeCases[15].img.src = "img/" + this.actualTheme + "/" + this.actualTheme + "_.jpg";
+
+			let melanger = document.getElementById("melanger");
+			melanger.disabled = true;
+
+			let solution = document.getElementById("solution");
+			solution.disabled = true;
+			}
+
+		else {
+
 			for (var i = 0; i < this.listeCases.length; i++) {
 				if (this.listeCases[i].number == this.listeCases[i].id) {
 					this.score++;
 				}
 			}
 		
-		message.innerHTML = this.coups + " coup(s), " + this.score + " bien placé(s)"; 
+			message.innerHTML = this.coups + " coup(s), " + this.score + " bien placé(s)"; 
+		}
 	}
 
 	changeCursor(number) {
@@ -84,69 +107,75 @@ class Game {
 	
 		let blanc = this.listeCases.find(element => element.number === 15);
 		let idBlanc = blanc.id;
+
+		
 	
-		if (idPiece == 0) {
-			if (idPiece + 1 == idBlanc || idPiece + 4 == idBlanc) {
+			if (idPiece == 0) {
+				if (idPiece + 1 == idBlanc || idPiece + 4 == idBlanc) {
+					piece.setCursor("pointer");
+				}
+				else piece.setCursor("not-allowed");
+			}
+			else if (idPiece == 3) {
+				if (idPiece - 1 == idBlanc || idPiece + 4 == idBlanc) {
+					piece.setCursor("pointer");
+				}
+				else piece.setCursor("not-allowed");
+			}
+			else if (idPiece == 12) {
+				if (idPiece + 1 == idBlanc || idPiece - 4 == idBlanc) {
+					piece.setCursor("pointer");
+				}
+				else piece.setCursor("not-allowed");
+			}
+			else if (idPiece == 15) {
+				if (idPiece - 1 == idBlanc || idPiece - 4 == idBlanc) {
+					piece.setCursor("pointer");
+				}
+				else piece.setCursor("not-allowed");
+			}
+		
+			else if (idPiece == 4 || idPiece == 8) {
+				if (idPiece + 1 == idBlanc || idPiece - 4 == idBlanc || idPiece + 4 == idBlanc) {
+					piece.setCursor("pointer");
+				}
+				else piece.setCursor("not-allowed");
+			}
+			else if (idPiece == 1 || idPiece == 2) {
+				if (idPiece - 1 == idBlanc || idPiece + 1 == idBlanc || idPiece + 4 == idBlanc) {
+					piece.setCursor("pointer");
+				}
+				else piece.setCursor("not-allowed");
+			}
+			else if (idPiece == 7 || idPiece == 11) {
+				if (idPiece - 1 == idBlanc || idPiece - 4 == idBlanc || idPiece + 4 == idBlanc) {
+					piece.setCursor("pointer");
+				}
+				else piece.setCursor("not-allowed");
+			}
+			else if (idPiece == 13 || idPiece == 14) {
+				if (idPiece + 1 == idBlanc || idPiece - 1 == idBlanc || idPiece - 4 == idBlanc) {
+					piece.setCursor("pointer");
+				}
+				else piece.setCursor("not-allowed");
+			}
+		
+			else if (idPiece + 1 == idBlanc || idPiece - 1 == idBlanc || idPiece - 4 == idBlanc || idPiece + 4 == idBlanc){
 				piece.setCursor("pointer");
 			}
-			else piece.setCursor("not-allowed");
-		}
-		else if (idPiece == 3) {
-			if (idPiece - 1 == idBlanc || idPiece + 4 == idBlanc) {
-				piece.setCursor("pointer");
-			}
-			else piece.setCursor("not-allowed");
-		}
-		else if (idPiece == 12) {
-			if (idPiece + 1 == idBlanc || idPiece - 4 == idBlanc) {
-				piece.setCursor("pointer");
-			}
-			else piece.setCursor("not-allowed");
-		}
-		else if (idPiece == 15) {
-			if (idPiece - 1 == idBlanc || idPiece - 4 == idBlanc) {
-				piece.setCursor("pointer");
-			}
-			else piece.setCursor("not-allowed");
-		}
-	
-		else if (idPiece == 4 || idPiece == 8) {
-			if (idPiece + 1 == idBlanc || idPiece - 4 == idBlanc || idPiece + 4 == idBlanc) {
-				piece.setCursor("pointer");
-			}
-			else piece.setCursor("not-allowed");
-		}
-		else if (idPiece == 1 || idPiece == 2) {
-			if (idPiece - 1 == idBlanc || idPiece + 1 == idBlanc || idPiece + 4 == idBlanc) {
-				piece.setCursor("pointer");
-			}
-			else piece.setCursor("not-allowed");
-		}
-		else if (idPiece == 7 || idPiece == 11) {
-			if (idPiece - 1 == idBlanc || idPiece - 4 == idBlanc || idPiece + 4 == idBlanc) {
-				piece.setCursor("pointer");
-			}
-			else piece.setCursor("not-allowed");
-		}
-		else if (idPiece == 13 || idPiece == 14) {
-			if (idPiece + 1 == idBlanc || idPiece - 1 == idBlanc || idPiece - 4 == idBlanc) {
-				piece.setCursor("pointer");
-			}
-			else piece.setCursor("not-allowed");
-		}
-	
-		else if (idPiece + 1 == idBlanc || idPiece - 1 == idBlanc || idPiece - 4 == idBlanc || idPiece + 4 == idBlanc){
-			piece.setCursor("pointer");
-		}
-	
-		else {piece.setCursor("not-allowed");};
+		
+			else {piece.setCursor("not-allowed");};
+
+		
+
 	
 	}
 
 	changeAllCursors() {
 		for (let i = 0; i < this.listeCases.length; i++) {
-			this.changeCursor(i);
+				this.changeCursor(i);
 		}
+				
 	}
 
 	deplacerCase(e) {
@@ -171,15 +200,30 @@ class Game {
 			piece.number = nbBlanc;
 			blanc.number = interNb;
 
-			this.coups = this.coups + 1;
 			
 			game.changeAllCursors();
 
 		}
 	}
 
-	bougerCase_maj(e) {
+	bougerCase_maj = function(e) {
 		game.deplacerCase(e);
-		game.maj_affichage();		
+		this.coups = this.coups + 1;
+		game.maj_affichage();	
+	}.bind(this);
+
+
+	hasWon() {
+		let bool = true;
+		for (var i = 0; i < this.listeCases.length; i++) {
+			if (this.listeCases[i].number != this.listeCases[i].id) {
+				bool = false;
+				break;
+			}
+		}
+		return bool;
 	}
+
+
+
 }
