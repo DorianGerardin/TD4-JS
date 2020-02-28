@@ -22,7 +22,7 @@ class Game {
 			}
 		}
 
-		// On met le taquin dans la configuration initiale
+		// On met le taquin dans la configuration initiale (quand on mélange plusieurs fois de suite)
 		this.initialiser();
 
 		for (var i = 0; i < 200; i++) {
@@ -41,6 +41,7 @@ class Game {
 		}
 		this.coups = 0;
 		this.maj_affichage();
+		//Choix personnel de ranger la liste par ordre croissant des id de cases
 		this.listeCases.sort(function(a, b) {return a.id - b.id});
 
 	}
@@ -50,9 +51,6 @@ class Game {
 			this.listeCases[i].img.src = "img/" + theme + "/" + theme + "_" + this.listeCases[i].number + ".jpg";
 		}		
 		this.actualTheme = theme;
-		if (game.hasWon()) {
-			this.listeCases[15].img.src = "img/" + this.actualTheme + "/" + this.actualTheme + "_.jpg";
-		}
 		let modele = document.getElementById("photo16");
 		modele.src = "img/" + theme + "/" + theme + "_" + "16" + ".jpg";
 		this.maj_affichage();
@@ -79,6 +77,7 @@ class Game {
 	}
 
 	maj_affichage() {
+		
 		let message = document.getElementById("message");
 
 		this.score = 0;
@@ -211,6 +210,8 @@ class Game {
 		}
 	}
 
+	//Appelle Deplacer case avec la mise a jour d'affichage
+	//Dans melanger(), on appelle deplacerCase, cela evite d'appeler maj_affichage() à chaque mélange
 	bougerCase_maj = function(e) {
 		game.deplacerCase(e);
 		this.coups = this.coups + 1;
@@ -229,6 +230,7 @@ class Game {
 		return bool;
 	}
 
+	//Met le taquin dans une configuration de victoire
 	initialiser() {
 		for (var i = 0; i < 16; i++) {
 			this.listeCases[i] = new Case(i);

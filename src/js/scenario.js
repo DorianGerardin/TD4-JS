@@ -5,7 +5,6 @@ game.changeAllCursors();
 
 game.melanger();
 
-
 theme = document.getElementById("themes");
 theme.onchange = function() {game.changerTheme(theme.value)};
 
