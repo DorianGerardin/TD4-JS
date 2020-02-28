@@ -11,9 +11,19 @@ class Game {
 		this.actualTheme = "nombres";
 	}
 
+
+	// On mélange le taquin
+	//Au départ il est résolu car il est dans une configuration initiale, donc on ajoute des événements aux clicks sur les cases
 	melanger() {
 
-		this.changeAllCursors();
+		if (this.hasWon()) {
+			for (let i = 0; i < this.listeCases.length; i++) {
+			    this.listeCases[i].img.addEventListener('click', this.bougerCase_maj);
+			}
+		}
+
+		// On met le taquin dans la configuration initiale
+		this.initialiser();
 
 		for (var i = 0; i < 200; i++) {
 		
@@ -70,10 +80,10 @@ class Game {
 
 	maj_affichage() {
 		let message = document.getElementById("message");
+
 		this.score = 0;
 
 		if (this.hasWon()) {
-			console.log("yo");
 			message.innerHTML = "BRAVO !! Puzzle résolu en " + this.coups + " coups !";
 			for (let i = 0; i < this.listeCases.length; i++) {
 				this.listeCases[i].setCursor("not-allowed");
@@ -81,11 +91,6 @@ class Game {
 			}
 			this.listeCases[15].img.src = "img/" + this.actualTheme + "/" + this.actualTheme + "_.jpg";
 
-			let melanger = document.getElementById("melanger");
-			melanger.disabled = true;
-
-			let solution = document.getElementById("solution");
-			solution.disabled = true;
 			}
 
 		else {
@@ -222,6 +227,15 @@ class Game {
 			}
 		}
 		return bool;
+	}
+
+	initialiser() {
+		for (var i = 0; i < 16; i++) {
+			this.listeCases[i] = new Case(i);
+			this.listeCases[i].number = i;
+			this.listeCases[i].img.src = "img/" + this.actualTheme + "/" + this.actualTheme + "_" + this.listeCases[i].number + ".jpg";
+		}
+		this.changeAllCursors();
 	}
 
 
