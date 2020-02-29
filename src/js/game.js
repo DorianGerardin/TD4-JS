@@ -86,7 +86,7 @@ class Game {
 			message.innerHTML = "BRAVO !! Puzzle résolu en " + this.coups + " coups !";
 			for (let i = 0; i < this.listeCases.length; i++) {
 				this.listeCases[i].setCursor("not-allowed");
-				game.listeCases[i].img.removeEventListener('click', game.bougerCase_maj);
+				this.listeCases[i].img.removeEventListener('click', this.bougerCase_maj);
 			}
 			this.listeCases[15].img.src = "img/" + this.actualTheme + "/" + this.actualTheme + "_.jpg";
 
@@ -169,9 +169,6 @@ class Game {
 			}
 		
 			else {piece.setCursor("not-allowed");};
-
-		
-
 	
 	}
 
@@ -179,7 +176,6 @@ class Game {
 		for (let i = 0; i < this.listeCases.length; i++) {
 				this.changeCursor(i);
 		}
-				
 	}
 
 	deplacerCase(e) {

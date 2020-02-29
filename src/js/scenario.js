@@ -1,8 +1,6 @@
 var game = new Game();
 var theme;
 
-game.changeAllCursors();
-
 game.melanger();
 
 theme = document.getElementById("themes");
