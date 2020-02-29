@@ -204,17 +204,17 @@ class Game {
 			piece.number = nbBlanc;
 			blanc.number = interNb;
 
-			
+			this.coups = this.coups + 1;
+
 			game.changeAllCursors();
 
 		}
 	}
 
-	//Appelle Deplacer case avec la mise a jour d'affichage
+	//Appelle deplacercase() avec la mise a jour d'affichage
 	//Dans melanger(), on appelle deplacerCase, cela evite d'appeler maj_affichage() à chaque mélange
 	bougerCase_maj = function(e) {
 		game.deplacerCase(e);
-		this.coups = this.coups + 1;
 		game.maj_affichage();	
 	}.bind(this);
 
